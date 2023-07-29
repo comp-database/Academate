@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import com.getfly.technologies.model.AcademateRepository
 import com.getfly.technologies.model.api.AcademateWebService
+import com.getfly.technologies.model.response.PersonalDetailsResponse
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import kotlinx.coroutines.CoroutineScope
@@ -34,16 +35,26 @@ class MainActivity : AppCompatActivity() {
         viewModel.postLogin( "vu1f2122054@pvppcoe.ac.in", "Vishal@7963")
 //        val post = LoginInput("vu1f2122054@pvppcoe.ac.in", "Vishal@7963")
 //        viewModel.postLogin2(post)
-        viewModel.LoginResponse.observe(this) { response ->
-            if (response.isSuccessful) {
-                findViewById<TextView>(R.id.textView).text = response.body()?.uid.toString()
+        viewModel.LoginResponse.observe(this) { LoginResponseStatus ->
+            if (LoginResponseStatus.isSuccessful) {
+                findViewById<TextView>(R.id.textView).text = LoginResponseStatus.body()?.uid.toString()
+                Log.d("Success",LoginResponseStatus.code().toString())
             } else {
-                Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+                Log.d("Error",LoginResponseStatus.code().toString())
             }
         }
 
+        viewModel.getPersonalDetails("774")
 
-
+        viewModel.PersonalDeatailResponse.observe(this){ PersonalDetailsResponseStatus ->
+            if (PersonalDetailsResponseStatus.isSuccessful){
+                Log.d("DetailsSuccessBody", PersonalDetailsResponseStatus.body()?.radd!![0].name.toString())
+                Log.d("DetailsSuccessCode",PersonalDetailsResponseStatus.code().toString())
+            } else{
+                Log.d("Error",PersonalDetailsResponseStatus.code().toString())
+            }
+        }
         //CODE FOR EASE-BUZZ ACTIVITY
         pweActivityResultLauncher = registerForActivityResult<Intent, ActivityResult>(
             ActivityResultContracts.StartActivityForResult()) { result ->

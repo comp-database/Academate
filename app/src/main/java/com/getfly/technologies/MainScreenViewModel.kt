@@ -6,15 +6,24 @@ import androidx.lifecycle.viewModelScope
 import com.getfly.technologies.model.AcademateRepository
 import com.getfly.technologies.model.response.LoginInput
 import com.getfly.technologies.model.response.LoginResponse
+import com.getfly.technologies.model.response.PersonalDetailsResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class MainScreenViewModel(private val repository: AcademateRepository): ViewModel() {
     var LoginResponse: MutableLiveData<Response<LoginResponse>> = MutableLiveData()
+    var PersonalDeatailResponse: MutableLiveData<Response<PersonalDetailsResponse>> = MutableLiveData()
     fun postLogin(email: String, password: String) {
         viewModelScope.launch {
             val response = repository.postLogin(email,password)
             LoginResponse.value = response
+        }
+    }
+
+    fun getPersonalDetails(uid : String?){
+        viewModelScope.launch {
+            val response = repository.getPersonalDetails(uid)
+            PersonalDeatailResponse.value = response
         }
     }
 
