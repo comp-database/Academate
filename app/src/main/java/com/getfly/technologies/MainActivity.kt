@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.getfly.technologies.model.AcademateRepository
 import com.getfly.technologies.model.api.AcademateWebService
 import com.getfly.technologies.model.response.PersonalDetailsResponse
@@ -53,6 +56,19 @@ class MainActivity : AppCompatActivity() {
                 Log.d("DetailsSuccessCode",PersonalDetailsResponseStatus.code().toString())
             } else{
                 Log.d("Error",PersonalDetailsResponseStatus.code().toString())
+            }
+        }
+
+        val imageView = findViewById<ImageView>(R.id.imageView)
+        viewModel.getDocDetails("773")
+        viewModel.DocDeatailResponse.observe(this){DocDetailsResponseStatus->
+            if(DocDetailsResponseStatus.isSuccessful){
+                Glide.with(this)
+                    .load(DocDetailsResponseStatus.body()!!.docs.photo)
+                    .centerCrop()
+                    .fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageView)
             }
         }
         //CODE FOR EASE-BUZZ ACTIVITY

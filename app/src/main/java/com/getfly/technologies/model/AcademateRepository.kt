@@ -1,6 +1,7 @@
 package com.getfly.technologies.model
 
 import com.getfly.technologies.model.api.AcademateWebService
+import com.getfly.technologies.model.response.DocResponse
 import com.getfly.technologies.model.response.LoginInput
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
@@ -14,6 +15,11 @@ class AcademateRepository(private val webService : AcademateWebService = Academa
     suspend fun getPersonalDetails(uid : String?) : Response<PersonalDetailsResponse>{
         return webService.api.getPersonalDetails(uid)
     }
+
+    suspend fun getDocDetails(uid : String?) : Response<DocResponse>{
+        return webService.api.getDocDetails(uid)
+    }
+
 //    suspend fun postLogin2(post : LoginInput): Response<LoginInput> {
 //        return webService.api.postLogin2(post)
 //    }

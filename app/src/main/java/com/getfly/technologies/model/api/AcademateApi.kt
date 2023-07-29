@@ -1,6 +1,7 @@
 package com.getfly.technologies.model.api
 
 import android.util.Log
+import com.getfly.technologies.model.response.DocResponse
 import com.getfly.technologies.model.response.LoginInput
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
@@ -51,6 +52,13 @@ class AcademateWebService {
             @Query("uid")
             uid : String?
         ) : Response<PersonalDetailsResponse>
+
+
+        @GET("api/admission/upload")
+        suspend fun getDocDetails(
+            @Query("uid")
+            uid : String?
+        ) : Response<DocResponse>
 
     }
 
