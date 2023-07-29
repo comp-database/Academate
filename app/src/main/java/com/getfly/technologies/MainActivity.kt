@@ -3,16 +3,46 @@ import com.easebuzz.payment.kit.PWECouponsActivity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModelProvider
+import com.getfly.technologies.model.AcademateRepository
+import com.getfly.technologies.model.api.AcademateWebService
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewModel: MainScreenViewModel
     var pweActivityResultLauncher: ActivityResultLauncher<Intent>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val repository = AcademateRepository()
+        val viewModelFactory = MainViewModelFactory(repository)
+
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainScreenViewModel::class.java]
+        viewModel.postLogin( "vu1f2122054@pvppcoe.ac.in", "Vishal@7963")
+//        val post = LoginInput("vu1f2122054@pvppcoe.ac.in", "Vishal@7963")
+//        viewModel.postLogin2(post)
+        viewModel.LoginResponse.observe(this) { response ->
+            if (response.isSuccessful) {
+                findViewById<TextView>(R.id.textView).text = response.body()?.uid.toString()
+            } else {
+                Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
 
         //CODE FOR EASE-BUZZ ACTIVITY
         pweActivityResultLauncher = registerForActivityResult<Intent, ActivityResult>(
@@ -37,4 +67,47 @@ class MainActivity : AppCompatActivity() {
             pweActivityResultLauncher!!.launch(intentProceed)
         }
     }
+//    fun urlEncoded() {
+//
+//        // Create Retrofit
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://postman-echo.com")
+//            .build()
+//
+//        // Create Service
+//        val service = retrofit.create(AcademateWebService.AcademateApi::class.java)
+//
+//        // Create HashMap with fields
+//        val params = HashMap<String?, String?>()
+//        params["name"] = "Jack"
+//        params["salary"] = "8054"
+//        params["age"] = "45"
+//
+//        CoroutineScope(Dispatchers.IO).launch {
+//
+//            // Do the POST request and get response
+//            val response = service.postLogin(params)
+//
+//            withContext(Dispatchers.Main) {
+//                if (response.isSuccessful) {
+//
+//                    // Convert raw JSON to pretty JSON using GSON library
+//                    val gson = GsonBuilder().setPrettyPrinting().create()
+//                    val prettyJson = gson.toJson(
+//                        JsonParser.parseString(
+//                            response.body()
+//                                ?.string() // About this thread blocking annotation : https://github.com/square/retrofit/issues/3255
+//                        )
+//                    )
+//
+//                    Log.d("Pretty Printed JSON :", prettyJson)
+//
+//                } else {
+//
+//                    Log.e("RETROFIT_ERROR", response.code().toString())
+//
+//                }
+//            }
+//        }
+//    }
 }
