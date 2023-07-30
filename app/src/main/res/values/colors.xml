@@ -4,5 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="btn_color">#00c68a</color>
     <color name="border_card_view">#BECADA</color>
-    <color name="Gray">#808080</color>
+    <color name="Gray">#E4E4E4</color>
+    <color name="Red">#FF7373</color>
 </resources>

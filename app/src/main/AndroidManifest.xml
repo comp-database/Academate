@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <queries>
         <package android:name="com.google.android.apps.nbu.paisa.user" />
         <package android:name="net.one97.paytm" />
@@ -22,12 +24,15 @@
         android:theme="@style/Theme.Academate"
         tools:targetApi="31">
         <activity
-            android:name=".HomePage"
+            android:name=".AdmissionScreen"
+            android:exported="false" />
+        <activity
+            android:name=".StudentScreen"
             android:exported="false"
             android:label="@string/title_activity_home_page"
             android:theme="@style/Theme.Academate" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
