@@ -1,6 +1,5 @@
 package com.getfly.technologies.model
 
-import android.content.SharedPreferences
 import com.getfly.technologies.model.api.AcademateWebService
 import com.getfly.technologies.model.api.EaseBuzzWebService
 import com.getfly.technologies.model.response.CurrentCourseDetailsResponse
@@ -8,12 +7,10 @@ import com.getfly.technologies.model.response.DocResponse
 import com.getfly.technologies.model.response.FacultyDashboardResponse
 import com.getfly.technologies.model.response.FeeDetailsResponse
 import com.getfly.technologies.model.response.InitiatePaymentResponse
-import com.getfly.technologies.model.response.LoginInput
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PendingApplicationResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
 import retrofit2.Response
-import retrofit2.http.POST
 
 class AcademateRepository(private val webService : AcademateWebService = AcademateWebService(),
                           private val paymentWebService: EaseBuzzWebService = EaseBuzzWebService()
@@ -43,7 +40,9 @@ class AcademateRepository(private val webService : AcademateWebService = Academa
         return webService.api.getfacultyDashboard(uid)
     }
 
-    suspend fun getPendingApplication(uid : String?) : Response<PendingApplicationResponse>{
+    suspend fun getPendingApplication(uid : String?) : List<PendingApplicationResponse.PendingApplicationResponseItem>{
+
+//        val response = webService.api.getPendingApplication(uid)
         return webService.api.getPendingApplication(uid)
     }
 

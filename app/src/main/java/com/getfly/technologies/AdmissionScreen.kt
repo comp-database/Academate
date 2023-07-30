@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.getfly.technologies.databinding.ActivityAdmissionSectionBinding
 import com.getfly.technologies.model.AcademateRepository
+import com.getfly.technologies.model.response.PendingApplicationResponse
 
 class AdmissionScreen : AppCompatActivity() {
 
@@ -47,44 +49,48 @@ class AdmissionScreen : AppCompatActivity() {
             viewModel.FacultyDashboardResponse.observe(this) { FacultyDashboardResponseStatus ->
                 if (FacultyDashboardResponseStatus.isSuccessful) {
                     binding.tvFirstYearCompleted.text =
-                        FacultyDashboardResponseStatus.body()?.count1.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.count1.toString()
                     binding.tvDseCompleted.text =
-                        FacultyDashboardResponseStatus.body()?.count2.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.count2.toString()
                     binding.tvSecondYearCompleted.text =
-                        FacultyDashboardResponseStatus.body()?.count3.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.count3.toString()
                     binding.tvThirdYearCompleted.text =
-                        FacultyDashboardResponseStatus.body()?.count4.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.count4.toString()
                     binding.tvFinalYearCompleted.text =
-                        FacultyDashboardResponseStatus.body()?.count5.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.count5.toString()
                     binding.tvComputerTotal.text =
-                        FacultyDashboardResponseStatus.body()?.cs.toString()
-                    binding.tvItTotal.text = FacultyDashboardResponseStatus.body()?.it.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.cs.toString()
+                    binding.tvItTotal.text =
+                        "Total : " + FacultyDashboardResponseStatus.body()?.it.toString()
                     binding.tvAidsTotal.text =
-                        FacultyDashboardResponseStatus.body()?.aids.toString()
+                        "Total : " + FacultyDashboardResponseStatus.body()?.aids.toString()
+                    binding.tvExtcTotal.text =
+                        "Total : " + FacultyDashboardResponseStatus.body()?.extc.toString()
                 }
             }
 
             viewModel.getPendingApplication(uidSP.toString())
-            viewModel.PendingApplicationResponse.observe(this) { PendingApplicationResponseStatus ->
-                if (PendingApplicationResponseStatus.isSuccessful) {
-                    binding.tvComputerPending.text = PendingApplicationResponseStatus.body()?.pcs.toString()
-                    binding.tvItPending.text = PendingApplicationResponseStatus.body()?.pit.toString()
-                    binding.tvAidsPending.text = PendingApplicationResponseStatus.body()?.paids.toString()
-                }
+            viewModel.pendingApplicationsLiveData.observe(this, Observer { pendingApplications ->
+                binding.tvComputerPending.text =
+                    "Pending : " + pendingApplications.get(0).pcs.toString()
+                binding.tvItPending.text =
+                    "Pending : " + pendingApplications.get(0).pit.toString()
+                binding.tvAidsPending.text =
+                    "Pending : " + pendingApplications.get(0).paids.toString()
+                binding.tvExtcPending.text =
+                    "Pending : " + pendingApplications.get(0).pextc.toString()
+            })
+
+            //Logout button
+            binding.btnLogout.setOnClickListener {
+                val editor = AdmissionScreen.sharedPreferences.edit()
+                editor.putBoolean("isStudent", false)
+                editor.putBoolean("isAdmission", false)
+                editor.apply()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
-        } else {
-            Toast.makeText(this, "Unable to fetch details", Toast.LENGTH_SHORT).show()
-        }
 
-        //Logout button
-        binding.btnLogout.setOnClickListener {
-            val editor = AdmissionScreen.sharedPreferences.edit()
-            editor.putBoolean("isStudent", false)
-            editor.putBoolean("isAdmission", false)
-            editor.apply()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
         }
-
     }
 }

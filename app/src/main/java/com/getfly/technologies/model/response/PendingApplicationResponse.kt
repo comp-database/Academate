@@ -3,7 +3,8 @@ package com.getfly.technologies.model.response
 
 import com.google.gson.annotations.SerializedName
 
-    data class PendingApplicationResponse(
+class PendingApplicationResponse : ArrayList<PendingApplicationResponse.PendingApplicationResponseItem>() {
+    data class PendingApplicationResponseItem(
         @SerializedName("paids")
         val paids: Int,
         @SerializedName("pcs")
@@ -13,3 +14,4 @@ import com.google.gson.annotations.SerializedName
         @SerializedName("pit")
         val pit: Int
     )
+}

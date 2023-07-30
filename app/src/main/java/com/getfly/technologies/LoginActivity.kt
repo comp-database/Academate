@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                         editor.putBoolean("isStudent", true)
                         editor.putInt("uid", response.body()!!.uid)
                         editor.apply()
-                        val intent = Intent(this, StudentScreen::class.java)
+                        val intent = Intent(this, HomeActivity::class.java)
                         Toast.makeText(
                             this,
                             "Congratulations welcome to Academate !",
@@ -77,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
         val isStudent = sharedPreferences.getBoolean("isStudent", false)
         val isAdmission = sharedPreferences.getBoolean("isAdmission", false)
         if (isStudent) {
-            startActivity(Intent(this, StudentScreen::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()
             // User is logged in, proceed to the main activity or home screen
         }else if (isAdmission) {

@@ -1,21 +1,16 @@
 package com.getfly.technologies.model.api
 
-import android.util.Log
 import com.getfly.technologies.model.response.CurrentCourseDetailsResponse
 import com.getfly.technologies.model.response.DocResponse
 import com.getfly.technologies.model.response.FacultyDashboardResponse
 import com.getfly.technologies.model.response.FeeDetailsResponse
-import com.getfly.technologies.model.response.LoginInput
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PendingApplicationResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
-import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
 import retrofit2.http.Field
-import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -75,7 +70,7 @@ class AcademateWebService {
         suspend fun getPendingApplication(
             @Query("uid")
             uid : String?
-        ) : Response<PendingApplicationResponse>
+        ) : PendingApplicationResponse
     }
 
 }

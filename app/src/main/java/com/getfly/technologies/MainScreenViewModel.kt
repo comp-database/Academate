@@ -23,7 +23,11 @@ class MainScreenViewModel(private val repository: AcademateRepository): ViewMode
     var CurrentCourseDetailsResponse: MutableLiveData<Response<CurrentCourseDetailsResponse>> = MutableLiveData()
     var DocDeatailResponse: MutableLiveData<Response<DocResponse>> = MutableLiveData()
     var FacultyDashboardResponse: MutableLiveData<Response<FacultyDashboardResponse>> = MutableLiveData()
-    var PendingApplicationResponse: MutableLiveData<Response<PendingApplicationResponse>> = MutableLiveData()
+//    var PendingApplicationResponse: MutableLiveData<Response<PendingApplicationResponse>> = MutableLiveData()
+
+    private val _pendingApplicationsLiveData = MutableLiveData<List<PendingApplicationResponse.PendingApplicationResponseItem>>()
+    val pendingApplicationsLiveData: LiveData<List<PendingApplicationResponse.PendingApplicationResponseItem>>
+        get() = _pendingApplicationsLiveData
 
     //payment response
     var PaymentResponse: MutableLiveData<Response<InitiatePaymentResponse>> = MutableLiveData()
@@ -89,11 +93,16 @@ class MainScreenViewModel(private val repository: AcademateRepository): ViewMode
         }
     }
 
+    suspend fun getPendingList(uid : String?):List<PendingApplicationResponse.PendingApplicationResponseItem>{
+        return repository.getPendingApplication(uid)
+    }
     fun getPendingApplication(uid : String?){
         viewModelScope.launch {
             val response = repository.getPendingApplication(uid)
-            PendingApplicationResponse.value = response
+            _pendingApplicationsLiveData.value = response
         }
     }
+
+
 
 }
