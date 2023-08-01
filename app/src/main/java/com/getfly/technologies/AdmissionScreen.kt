@@ -5,16 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.RequestOptions
 import com.getfly.technologies.databinding.ActivityAdmissionSectionBinding
 import com.getfly.technologies.model.AcademateRepository
-import com.getfly.technologies.model.response.PendingApplicationResponse
+import com.getfly.technologies.model.viewmodel.MainScreenViewModel
 
 class AdmissionScreen : AppCompatActivity() {
 
@@ -23,7 +18,7 @@ class AdmissionScreen : AppCompatActivity() {
 
     //Shared preferences to store user uid
     companion object {
-        private const val SHARED_PREFS_NAME = "AcademateLogin"
+        const val SHARED_PREFS_NAME = "AcademateLogin"
         lateinit var sharedPreferences: SharedPreferences
     }
 

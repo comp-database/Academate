@@ -4,12 +4,14 @@ import com.getfly.technologies.model.api.AcademateWebService
 import com.getfly.technologies.model.api.EaseBuzzWebService
 import com.getfly.technologies.model.response.CurrentCourseDetailsResponse
 import com.getfly.technologies.model.response.DocResponse
+import com.getfly.technologies.model.response.EducationDetailsResponse
 import com.getfly.technologies.model.response.FacultyDashboardResponse
 import com.getfly.technologies.model.response.FeeDetailsResponse
 import com.getfly.technologies.model.response.InitiatePaymentResponse
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PendingApplicationResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
+import com.getfly.technologies.model.response.SemDetailsResponse
 import retrofit2.Response
 
 class AcademateRepository(private val webService : AcademateWebService = AcademateWebService(),
@@ -41,7 +43,6 @@ class AcademateRepository(private val webService : AcademateWebService = Academa
     }
 
     suspend fun getPendingApplication(uid : String?) : List<PendingApplicationResponse.PendingApplicationResponseItem>{
-
 //        val response = webService.api.getPendingApplication(uid)
         return webService.api.getPendingApplication(uid)
     }
@@ -51,4 +52,13 @@ class AcademateRepository(private val webService : AcademateWebService = Academa
         var response = paymentWebService.easeBuzzApi.postInitiatePayment(status, data)
         return response
     }
+
+    suspend fun getEducationDetails(uid: String):Response<EducationDetailsResponse> {
+        return webService.api.getEducationDetails(uid)
+    }
+
+    suspend fun getSemDetails(uid: String):Response<SemDetailsResponse> {
+        return webService.api.getSemDetails(uid)
+    }
+
 }

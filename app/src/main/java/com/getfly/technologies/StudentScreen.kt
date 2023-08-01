@@ -19,6 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.getfly.technologies.databinding.ActivityHomePageBinding
 import com.getfly.technologies.model.AcademateRepository
+import com.getfly.technologies.model.viewmodel.MainScreenViewModel
 import okhttp3.OkHttpClient
 
 class StudentScreen : AppCompatActivity() {
@@ -30,7 +31,7 @@ class StudentScreen : AppCompatActivity() {
 
     //Shared preferences to store user uid
     companion object {
-        private const val SHARED_PREFS_NAME = "AcademateLogin"
+        const val SHARED_PREFS_NAME = "AcademateLogin"
         lateinit var sharedPreferences: SharedPreferences
     }
 

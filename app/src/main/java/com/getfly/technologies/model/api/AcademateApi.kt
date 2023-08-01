@@ -2,11 +2,13 @@ package com.getfly.technologies.model.api
 
 import com.getfly.technologies.model.response.CurrentCourseDetailsResponse
 import com.getfly.technologies.model.response.DocResponse
+import com.getfly.technologies.model.response.EducationDetailsResponse
 import com.getfly.technologies.model.response.FacultyDashboardResponse
 import com.getfly.technologies.model.response.FeeDetailsResponse
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PendingApplicationResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
+import com.getfly.technologies.model.response.SemDetailsResponse
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -71,6 +73,18 @@ class AcademateWebService {
             @Query("uid")
             uid : String?
         ) : PendingApplicationResponse
+
+        @GET("api/admission/currentEducation")
+        suspend fun getEducationDetails(
+            @Query("uid")
+            uid : String?
+        ) : Response<EducationDetailsResponse>
+
+        @GET("api/admission/sem")
+        suspend fun getSemDetails(
+            @Query("uid")
+            uid : String?
+        ) : Response<SemDetailsResponse>
     }
 
 }

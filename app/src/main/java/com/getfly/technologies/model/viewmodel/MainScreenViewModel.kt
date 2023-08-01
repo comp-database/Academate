@@ -1,4 +1,4 @@
-package com.getfly.technologies
+package com.getfly.technologies.model.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.getfly.technologies.model.AcademateRepository
 import com.getfly.technologies.model.response.CurrentCourseDetailsResponse
 import com.getfly.technologies.model.response.DocResponse
+import com.getfly.technologies.model.response.EducationDetailsResponse
 import com.getfly.technologies.model.response.FacultyDashboardResponse
 import com.getfly.technologies.model.response.FeeDetailsResponse
 import com.getfly.technologies.model.response.InitiatePaymentResponse
 import com.getfly.technologies.model.response.LoginResponse
 import com.getfly.technologies.model.response.PendingApplicationResponse
 import com.getfly.technologies.model.response.PersonalDetailsResponse
+import com.getfly.technologies.model.response.SemDetailsResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -23,7 +25,10 @@ class MainScreenViewModel(private val repository: AcademateRepository): ViewMode
     var CurrentCourseDetailsResponse: MutableLiveData<Response<CurrentCourseDetailsResponse>> = MutableLiveData()
     var DocDeatailResponse: MutableLiveData<Response<DocResponse>> = MutableLiveData()
     var FacultyDashboardResponse: MutableLiveData<Response<FacultyDashboardResponse>> = MutableLiveData()
+    var EducationDetailsResponse: MutableLiveData<Response<EducationDetailsResponse>> = MutableLiveData()
+    var SemDetailsResponse: MutableLiveData<Response<SemDetailsResponse>> = MutableLiveData()
 //    var PendingApplicationResponse: MutableLiveData<Response<PendingApplicationResponse>> = MutableLiveData()
+
 
     private val _pendingApplicationsLiveData = MutableLiveData<List<PendingApplicationResponse.PendingApplicationResponseItem>>()
     val pendingApplicationsLiveData: LiveData<List<PendingApplicationResponse.PendingApplicationResponseItem>>
@@ -93,13 +98,27 @@ class MainScreenViewModel(private val repository: AcademateRepository): ViewMode
         }
     }
 
-    suspend fun getPendingList(uid : String?):List<PendingApplicationResponse.PendingApplicationResponseItem>{
-        return repository.getPendingApplication(uid)
-    }
+//    suspend fun getPendingList(uid : String?):List<PendingApplicationResponse.PendingApplicationResponseItem>{
+//        return repository.getPendingApplication(uid)
+//    }
     fun getPendingApplication(uid : String?){
         viewModelScope.launch {
             val response = repository.getPendingApplication(uid)
             _pendingApplicationsLiveData.value = response
+        }
+    }
+
+    fun getEducationDetails(uid : String) {
+        viewModelScope.launch {
+            val response = repository.getEducationDetails(uid)
+            EducationDetailsResponse.value = response
+        }
+    }
+
+    fun getSemDetails(uid : String) {
+        viewModelScope.launch {
+            val response = repository.getSemDetails(uid)
+            SemDetailsResponse.value = response
         }
     }
 

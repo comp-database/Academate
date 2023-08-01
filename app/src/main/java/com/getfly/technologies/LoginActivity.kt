@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.getfly.technologies.databinding.ActivityLoginBinding
 import com.getfly.technologies.model.AcademateRepository
+import com.getfly.technologies.model.viewmodel.MainScreenViewModel
 
 
 class LoginActivity : AppCompatActivity() {
